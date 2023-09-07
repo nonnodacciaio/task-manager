@@ -2,7 +2,8 @@ import { NgModule } from "@angular/core";
 import { ScreenTrackingService, UserTrackingService, getAnalytics, provideAnalytics } from "@angular/fire/analytics";
 import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
 import { getAuth, provideAuth } from "@angular/fire/auth";
-import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireAuth, AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { getDatabase, provideDatabase } from "@angular/fire/database";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
@@ -30,6 +31,8 @@ import { AuthService } from "./shared/services/auth.service";
 		provideAnalytics(() => getAnalytics()),
 		provideAuth(() => getAuth()),
 		provideDatabase(() => getDatabase()),
+		AngularFireAuthModule,
+		AngularFireModule.initializeApp(environment.firebase),
 		MatToolbarModule,
 		MatButtonModule,
 		MatIconModule,
