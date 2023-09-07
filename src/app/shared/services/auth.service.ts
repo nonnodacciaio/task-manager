@@ -1,16 +1,15 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { Firestore, doc, setDoc } from "@angular/fire/firestore";
+import { Router } from "@angular/router";
 import { FirebaseError } from "firebase/app";
 import { User } from "src/app/models/user.model";
 import { MessageService } from "./message.service";
-import { Router } from "@angular/router";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
 	userData: User | null = null;
 
-	constructor(private afAuth: AngularFireAuth, private messageService: MessageService, private firestore: Firestore, private router: Router) {
+	constructor(private afAuth: AngularFireAuth, private messageService: MessageService, private router: Router) {
 		this.afAuth.authState.subscribe(user => {
 			if (user) {
 				this.userData = user as User;
@@ -33,10 +32,7 @@ export class AuthService {
 	}
 
 	login(email: string, password: string) {
-		this.afAuth
-			.signInWithEmailAndPassword(email, password)
-			.then(result => this.setUserData(result.user))
-			.catch((error: FirebaseError) => this.messageService.error(error.message));
+		this.afAuth.signInWithEmailAndPassword(email, password).catch((error: FirebaseError) => this.messageService.error(error.message));
 	}
 
 	signup(email: string, password: string) {
@@ -44,15 +40,8 @@ export class AuthService {
 			.createUserWithEmailAndPassword(email, password)
 			.then(result => {
 				this.sendVerificationMail();
-				this.setUserData(result.user);
 			})
 			.catch((error: FirebaseError) => this.messageService.error(error.message));
-	}
-
-	private async setUserData(user: any) {
-		const docRef = doc(this.firestore, "users", user.uid);
-		console.log(user);
-		await setDoc(docRef, { email: user.email, uid: user.uid, emailVerified: user.emailVerified, isAnonymous: user.isAnonymous }, { merge: true });
 	}
 
 	logout() {
