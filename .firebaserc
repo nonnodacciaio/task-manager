@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "task-manager-addd4": {
+      "hosting": {
+        "task-manager": [
+          "task-manager-addd4"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "task-manager-addd4"
+  }
+}
