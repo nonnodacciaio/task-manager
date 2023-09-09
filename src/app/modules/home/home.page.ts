@@ -1,3 +1,4 @@
 import { Component } from "@angular/core";
 
-@Component({selector:"home", template:`Home page works!`}) export class HomePage{}
+@Component({ selector: "home", template: `<task-list></task-list>` })
+export class HomePage {}

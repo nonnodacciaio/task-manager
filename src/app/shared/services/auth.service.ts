@@ -35,7 +35,10 @@ export class AuthService {
 	login(email: string, password: string) {
 		this.afAuth
 			.signInWithEmailAndPassword(email, password)
-			.then(result => this.setUserData(result.user))
+			.then(result => {
+				this.setUserData(result.user);
+				this.router.navigate(["home"]);
+			})
 			.catch((error: FirebaseError) => this.messageService.error(error.message));
 	}
 
