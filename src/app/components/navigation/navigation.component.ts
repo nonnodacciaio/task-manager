@@ -28,12 +28,11 @@ import { AuthService } from "src/app/shared/services/auth.service";
 		</mat-toolbar>
 		<mat-menu
 			#login="matMenu"
-			class="p-5"
 			(click)="$event.stopPropagation()">
 			<form
 				(click)="$event.stopPropagation()"
 				(ngSubmit)="authService.login(email, password)"
-				class="flex flex-col">
+				class="flex flex-col p-1">
 				<mat-form-field
 					appearance="fill"
 					(click)="$event.stopPropagation()">
@@ -69,12 +68,11 @@ import { AuthService } from "src/app/shared/services/auth.service";
 
 		<mat-menu
 			#signup="matMenu"
-			class="p-5"
 			(click)="$event.stopPropagation()">
 			<form
 				(click)="$event.stopPropagation()"
 				(ngSubmit)="authService.signup(email, password)"
-				class="flex flex-col">
+				class="flex flex-col p-1">
 				<mat-form-field
 					appearance="fill"
 					(click)="$event.stopPropagation()">
