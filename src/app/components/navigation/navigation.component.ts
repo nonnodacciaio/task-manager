@@ -3,10 +3,6 @@ import { AuthService } from "src/app/shared/services/auth.service";
 @Component({
 	selector: "navigation",
 	template: `<mat-toolbar color="primary"
-			><button
-				mat-icon-button
-				[routerLink]="'home'">
-				<mat-icon>list</mat-icon></button
 			>Task manager app<button
 				mat-button
 				[matMenuTriggerFor]="signup"
