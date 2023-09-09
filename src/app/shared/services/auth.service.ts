@@ -54,13 +54,13 @@ export class AuthService {
 		await setDoc(docRef, { email: user.email, uid: user.uid, emailVerified: user.emailVerified, isAnonymous: user.isAnonymous }, { merge: true });
 	}
 
-	logout() {
+	async logout(): Promise<void> {
 		return this.afAuth.signOut().then(() => {
 			localStorage.removeItem("user");
 		});
 	}
 
-	private sendVerificationMail() {
+	private sendVerificationMail(): Promise<void> {
 		return this.afAuth.currentUser
 			.then((u: any) => u.sendEmailVerification())
 			.then(() => {

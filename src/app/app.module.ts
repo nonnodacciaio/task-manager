@@ -4,6 +4,7 @@ import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
 import { getAuth, provideAuth } from "@angular/fire/auth";
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuth, AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { getFirestore, provideFirestore } from "@angular/fire/firestore";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -27,6 +28,7 @@ import { AuthService } from "./shared/services/auth.service";
 		AppRoutingModule,
 		BrowserAnimationsModule,
 		provideFirebaseApp(() => initializeApp(environment.firebase)),
+		provideFirestore(() => getFirestore()),
 		provideAnalytics(() => getAnalytics()),
 		provideAuth(() => getAuth()),
 		AngularFireAuthModule,
