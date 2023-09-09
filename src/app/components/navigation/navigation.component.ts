@@ -2,25 +2,31 @@ import { Component } from "@angular/core";
 import { AuthService } from "src/app/shared/services/auth.service";
 @Component({
 	selector: "navigation",
-	template: `<mat-toolbar color="primary"
-			>Task manager app<button
-				mat-button
-				[matMenuTriggerFor]="signup"
-				*ngIf="!authService.isLoggedIn">
-				Signup
-			</button>
-			<button
-				*ngIf="!authService.isLoggedIn"
-				mat-button
-				[matMenuTriggerFor]="login">
-				Login</button
-			><button
-				mat-button
-				*ngIf="authService.isLoggedIn"
-				(click)="authService.logout()">
-				Logout
-			</button></mat-toolbar
-		><mat-menu
+	template: `<mat-toolbar
+			color="primary"
+			class="flex justify-between items-center">
+			<div>Task manager app</div>
+			<div class="flex space-x-2">
+				<button
+					mat-button
+					[matMenuTriggerFor]="signup"
+					*ngIf="!authService.isLoggedIn">
+					Signup
+				</button>
+				<button
+					*ngIf="!authService.isLoggedIn"
+					mat-button
+					[matMenuTriggerFor]="login">
+					Login</button
+				><button
+					mat-button
+					*ngIf="authService.isLoggedIn"
+					(click)="authService.logout()">
+					Logout
+				</button>
+			</div>
+		</mat-toolbar>
+		<mat-menu
 			#login="matMenu"
 			class="p-5"
 			(click)="$event.stopPropagation()">
