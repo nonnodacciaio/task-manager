@@ -5,5 +5,4 @@ export interface User {
 	email: string;
 	emailVerified: boolean;
 	isAnonymous: boolean;
-	tasks?: string[];
 }

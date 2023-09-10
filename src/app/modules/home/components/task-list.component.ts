@@ -1,11 +1,14 @@
 import { Component } from "@angular/core";
-import { Firestore } from "@angular/fire/firestore";
+import { Firestore, collection, doc, query, setDoc, where } from "@angular/fire/firestore";
+import { DocumentData, QuerySnapshot, getDocs } from "@angular/fire/firestore";
+import { Observable, from, map } from "rxjs";
+import { Task } from "src/app/models/task.model";
 import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
 	selector: "task-list",
 	template: `<mat-list *ngIf="authService.isLoggedIn"
-			><mat-list-item *ngFor="let task of tasks">{{ task.value }}</mat-list-item></mat-list
+			><mat-list-item *ngFor="let task of tasks$ | async">{{ task.task }}</mat-list-item></mat-list
 		>
 		<mat-form-field
 			><input
@@ -21,30 +24,23 @@ import { AuthService } from "src/app/shared/services/auth.service";
 		</button>`
 })
 export class TasklistComponent {
-	tasks: { value: string; complete: boolean }[] = [];
+	tasks$: Observable<Task[]>;
 	newTask: string = "";
 
-	constructor(public authService: AuthService, private firestore: Firestore) {}
+	constructor(public authService: AuthService, private firestore: Firestore) {
+		const q = query(collection(firestore, "tasks"), where("uid", "==", authService.userData?.uid));
 
-	addTask() {
+		const querySnapshot = getDocs(q);
+
+		this.tasks$ = from(querySnapshot).pipe(map((querySnapshot: QuerySnapshot<DocumentData>) => querySnapshot.docs.map(doc => doc.data() as Task)));
+	}
+
+	async addTask() {
 		const uid = this.authService.userData?.uid; // Replace with your authentication logic
 		if (uid) {
 			const taskObject = { value: this.newTask, completed: false };
 
-			// Add the task to Firestore under the "tasks" array for the user
-			this.firestore
-				.collection("users")
-				.doc(uid)
-				.update({
-					tasks: firebase.firestore.FieldValue.arrayUnion(taskObject)
-				})
-				.then(() => {
-					// Clear the input field after adding the task
-					this.newTask = "";
-				})
-				.catch(error => {
-					console.error("Error adding task:", error);
-				});
+			await setDoc(doc(this.firestore, "tasks", uid), taskObject);
 		}
 	}
 }

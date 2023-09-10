@@ -1,10 +1,9 @@
 import { NgModule } from "@angular/core";
-import { ScreenTrackingService, UserTrackingService, getAnalytics, provideAnalytics } from "@angular/fire/analytics";
-import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
-import { getAuth, provideAuth } from "@angular/fire/auth";
+import { ScreenTrackingService, UserTrackingService } from "@angular/fire/analytics";
+import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuth, AngularFireAuthModule } from "@angular/fire/compat/auth";
-import { getFirestore, provideFirestore } from "@angular/fire/firestore";
+import { provideFirestore } from "@angular/fire/firestore";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -15,6 +14,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { getFirestore } from "firebase/firestore";
 import { environment } from "../environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -30,8 +30,6 @@ import { AuthService } from "./shared/services/auth.service";
 		AngularFireModule.initializeApp(environment.firebase),
 		provideFirebaseApp(() => initializeApp(environment.firebase)),
 		provideFirestore(() => getFirestore()),
-		provideAnalytics(() => getAnalytics()),
-		provideAuth(() => getAuth()),
 		AngularFireAuthModule,
 		MatToolbarModule,
 		MatButtonModule,
