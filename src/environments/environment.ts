@@ -1,3 +1,4 @@
+import { getFirestore } from "@angular/fire/firestore";
 import { initializeApp } from "firebase/app";
 
 export const environment = {

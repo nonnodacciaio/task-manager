@@ -28,14 +28,17 @@ import { AuthService } from "src/app/shared/services/auth.service";
 		</mat-toolbar>
 		<mat-menu
 			#login="matMenu"
-			(click)="$event.stopPropagation()">
+			(click)="$event.stopPropagation()"
+			(keydown)="$event.stopPropagation()">
 			<form
 				(click)="$event.stopPropagation()"
+				(keydown)="$event.stopPropagation()"
 				(ngSubmit)="authService.login(email, password)"
 				class="flex flex-col p-1">
 				<mat-form-field
 					appearance="fill"
-					(click)="$event.stopPropagation()">
+					(click)="$event.stopPropagation()"
+					(keydown)="$event.stopPropagation()">
 					<mat-label>Email</mat-label>
 					<input
 						matInput
@@ -47,7 +50,8 @@ import { AuthService } from "src/app/shared/services/auth.service";
 
 				<mat-form-field
 					appearance="fill"
-					(click)="$event.stopPropagation()">
+					(click)="$event.stopPropagation()"
+					(keydown)="$event.stopPropagation()">
 					<mat-label>Password</mat-label>
 					<input
 						matInput
@@ -68,14 +72,17 @@ import { AuthService } from "src/app/shared/services/auth.service";
 
 		<mat-menu
 			#signup="matMenu"
-			(click)="$event.stopPropagation()">
+			(click)="$event.stopPropagation()"
+			(keydown)="$event.stopPropagation()">
 			<form
 				(click)="$event.stopPropagation()"
+				(keydown)="$event.stopPropagation()"
 				(ngSubmit)="authService.signup(email, password)"
 				class="flex flex-col p-1">
 				<mat-form-field
 					appearance="fill"
-					(click)="$event.stopPropagation()">
+					(click)="$event.stopPropagation()"
+					(keydown)="$event.stopPropagation()">
 					<mat-label>Email</mat-label>
 					<input
 						matInput
@@ -87,7 +94,8 @@ import { AuthService } from "src/app/shared/services/auth.service";
 
 				<mat-form-field
 					appearance="fill"
-					(click)="$event.stopPropagation()">
+					(click)="$event.stopPropagation()"
+					(keydown)="$event.stopPropagation()">
 					<mat-label>Password</mat-label>
 					<input
 						matInput

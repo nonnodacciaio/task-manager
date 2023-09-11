@@ -1,9 +1,8 @@
 import { Component } from "@angular/core";
-import { Firestore, collection, doc, query, setDoc, where } from "@angular/fire/firestore";
-import { DocumentData, QuerySnapshot, getDocs } from "@angular/fire/firestore";
-import { Observable, from, map } from "rxjs";
+import { Observable } from "rxjs";
 import { Task } from "src/app/models/task.model";
 import { AuthService } from "src/app/shared/services/auth.service";
+import { TasksService } from "../services/tasks.service";
 
 @Component({
 	selector: "task-list",
@@ -24,23 +23,14 @@ import { AuthService } from "src/app/shared/services/auth.service";
 		</button>`
 })
 export class TasklistComponent {
-	tasks$: Observable<Task[]>;
+	tasks$: Observable<Task[]> | null = null;
 	newTask: string = "";
 
-	constructor(public authService: AuthService, private firestore: Firestore) {
-		const q = query(collection(firestore, "tasks"), where("uid", "==", authService.userData?.uid));
-
-		const querySnapshot = getDocs(q);
-
-		this.tasks$ = from(querySnapshot).pipe(map((querySnapshot: QuerySnapshot<DocumentData>) => querySnapshot.docs.map(doc => doc.data() as Task)));
+	constructor(private tasksService: TasksService, public authService: AuthService) {
+		this.tasks$ = tasksService.getTasks();
 	}
 
 	async addTask() {
-		const uid = this.authService.userData?.uid; // Replace with your authentication logic
-		if (uid) {
-			const taskObject = { value: this.newTask, completed: false };
-
-			await setDoc(doc(this.firestore, "tasks", uid), taskObject);
-		}
+		console.log("Add tasks");
 	}
 }

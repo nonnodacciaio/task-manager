@@ -5,23 +5,21 @@ import { FirebaseError } from "firebase/app";
 import { User } from "src/app/models/user.model";
 import { MessageService } from "./message.service";
 import { Firestore, doc, setDoc } from "@angular/fire/firestore";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-	userData: User | null = null;
+	private userDataSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+	userData$ = this.userDataSubject.asObservable();
 
 	constructor(private afAuth: AngularFireAuth, private messageService: MessageService, private router: Router, private firestore: Firestore) {
 		this.afAuth.authState.subscribe(user => {
 			if (user) {
-				this.userData = user as User;
-
-				localStorage.setItem("user", JSON.stringify(this.userData));
-
-				JSON.parse(localStorage.getItem("user")!);
+				this.userDataSubject.next(user as User);
+				localStorage.setItem("user", JSON.stringify(user));
 			} else {
+				this.userDataSubject.next(null);
 				localStorage.setItem("user", "null");
-
-				JSON.parse(localStorage.getItem("user")!);
 			}
 		});
 	}

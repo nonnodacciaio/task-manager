@@ -9,6 +9,7 @@ import { MatListModule } from "@angular/material/list";
 import { RouterModule, Routes } from "@angular/router";
 import { TasklistComponent } from "./components/task-list.component";
 import { HomePage } from "./home.page";
+import { TasksService } from "./services/tasks.service";
 
 const routes: Routes = [
 	{
@@ -20,6 +21,6 @@ const routes: Routes = [
 @NgModule({
 	declarations: [HomePage, TasklistComponent],
 	imports: [CommonModule, RouterModule.forChild(routes), MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule],
-	providers: [AngularFireAuth]
+	providers: [AngularFireAuth, TasksService]
 })
 export class HomeModule {}
