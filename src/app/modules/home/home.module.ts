@@ -10,6 +10,8 @@ import { RouterModule, Routes } from "@angular/router";
 import { TasklistComponent } from "./components/task-list.component";
 import { HomePage } from "./home.page";
 import { TasksService } from "./services/tasks.service";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatIconModule } from "@angular/material/icon";
 
 const routes: Routes = [
 	{
@@ -20,7 +22,7 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [HomePage, TasklistComponent],
-	imports: [CommonModule, RouterModule.forChild(routes), MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule],
+	imports: [CommonModule, RouterModule.forChild(routes), MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatCheckboxModule, MatIconModule],
 	providers: [AngularFireAuth, TasksService]
 })
 export class HomeModule {}
