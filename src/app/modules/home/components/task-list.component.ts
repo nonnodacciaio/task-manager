@@ -18,6 +18,7 @@ import { FirebaseError } from "firebase/app";
 					(change)="toggleCompletion(task)"></mat-checkbox
 				><button
 					mat-icon-button
+					class="align-middle"
 					color="warn"
 					(click)="deleteTask(task)">
 					<mat-icon>delete</mat-icon>
