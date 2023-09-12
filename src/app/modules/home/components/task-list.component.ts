@@ -8,23 +8,28 @@ import { FirebaseError } from "firebase/app";
 
 @Component({
 	selector: "task-list",
-	template: `<mat-list *ngIf="authService.isLoggedIn"
-			><mat-list-item
+	template: `<ng-container *ngIf="authService.isLoggedIn">
+			<div
 				*ngFor="let task of tasks$ | async"
 				[class.line-through]="task.completed"
-				>{{ task.task
-				}}<mat-checkbox
-					[checked]="task.completed"
-					(change)="toggleCompletion(task)"></mat-checkbox
-				><button
-					mat-icon-button
-					class="align-middle"
-					color="warn"
-					(click)="deleteTask(task)">
-					<mat-icon>delete</mat-icon>
-				</button></mat-list-item
-			></mat-list
-		>
+				class="p-1 m-3 text-base border-b flex">
+				<p class="w-2/3">
+					{{ task.task }}
+				</p>
+				<div class="w-1/3">
+					<mat-checkbox
+						[checked]="task.completed"
+						(change)="toggleCompletion(task)"></mat-checkbox
+					><button
+						class="align-middle"
+						mat-icon-button
+						color="warn"
+						(click)="deleteTask(task)">
+						<mat-icon>delete</mat-icon>
+					</button>
+				</div>
+			</div>
+		</ng-container>
 		<ng-container *ngIf="authService.isLoggedIn">
 			<mat-form-field class="w-full"
 				><input
