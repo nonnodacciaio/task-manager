@@ -5,4 +5,6 @@ export interface User {
 	email: string;
 	emailVerified: boolean;
 	isAnonymous: boolean;
+	displayName: string;
+	phoneNumber: string;
 }

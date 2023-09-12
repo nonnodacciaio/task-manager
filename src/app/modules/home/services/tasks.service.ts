@@ -2,14 +2,14 @@ import { Injectable } from "@angular/core";
 import { User } from "@angular/fire/auth";
 import { DocumentData, QuerySnapshot, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query, setDoc, where } from "@angular/fire/firestore";
 import { FirebaseError } from "firebase/app";
-import { Observable, Subject } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { Task } from "src/app/models/task.model";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { MessageService } from "./../../../shared/services/message.service";
 
 @Injectable({ providedIn: "root" })
 export class TasksService {
-	private tasksSubject: Subject<Task[]> = new Subject<Task[]>();
+	private tasksSubject: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>([]);
 	tasks$: Observable<Task[]> = this.tasksSubject.asObservable();
 
 	firestore = getFirestore();
@@ -19,7 +19,7 @@ export class TasksService {
 		this.authService.userData$.subscribe(userData => {
 			if (userData) {
 				this.userData = userData as User;
-				this.fetchTasks(); // Fetch tasks when user data changes
+				this.fetchTasks();
 			}
 		});
 	}

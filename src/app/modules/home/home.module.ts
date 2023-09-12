@@ -22,7 +22,7 @@ const routes: Routes = [
 
 @NgModule({
 	declarations: [HomePage, TasklistComponent],
-	imports: [CommonModule, RouterModule.forChild(routes), MatListModule, MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule, MatCheckboxModule, MatIconModule],
+	imports: [CommonModule, RouterModule.forChild(routes), MatInputModule, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatCheckboxModule, MatIconModule],
 	providers: [AngularFireAuth, TasksService]
 })
 export class HomeModule {}

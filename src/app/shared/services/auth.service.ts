@@ -58,6 +58,7 @@ export class AuthService {
 	async logout(): Promise<void> {
 		return this.afAuth.signOut().then(() => {
 			localStorage.removeItem("user");
+			this.router.navigate(["home"]);
 		});
 	}
 
@@ -67,5 +68,9 @@ export class AuthService {
 			.then(() => {
 				this.router.navigate(["auth/verify"]);
 			});
+	}
+
+	deleteAccount() {
+		this.afAuth.currentUser.then(user => user?.delete());
 	}
 }
