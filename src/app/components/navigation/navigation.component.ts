@@ -3,7 +3,9 @@ import { NavigationEnd, Router } from "@angular/router";
 import { AuthService } from "src/app/shared/services/auth.service";
 @Component({
 	selector: "navigation",
-	template: `<mat-toolbar color="primary">
+	template: `<mat-toolbar
+		color="primary"
+		class="flex justify-between">
 		<div>Task manager app</div>
 		<div>
 			<button

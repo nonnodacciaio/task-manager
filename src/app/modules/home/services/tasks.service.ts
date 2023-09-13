@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { User } from "@angular/fire/auth";
 import { DocumentData, QuerySnapshot, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query, setDoc, where } from "@angular/fire/firestore";
 import { FirebaseError } from "firebase/app";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { Task } from "src/app/models/task.model";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { MessageService } from "./../../../shared/services/message.service";
