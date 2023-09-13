@@ -72,5 +72,6 @@ export class AuthService {
 
 	deleteAccount() {
 		this.afAuth.currentUser.then(user => user?.delete());
+this.router.navigate(["home"]);
 	}
 }
