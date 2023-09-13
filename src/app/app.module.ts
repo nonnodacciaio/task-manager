@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, isDevMode } from "@angular/core";
 import { ScreenTrackingService, UserTrackingService } from "@angular/fire/analytics";
 import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
 import { AngularFireModule } from "@angular/fire/compat";
@@ -20,6 +20,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { NavigationComponent } from "./components/navigation/navigation.component";
 import { AuthService } from "./shared/services/auth.service";
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent],
@@ -39,7 +40,13 @@ import { AuthService } from "./shared/services/auth.service";
 		MatInputModule,
 		MatSnackBarModule,
 		ReactiveFormsModule,
-		FormsModule
+		FormsModule,
+  ServiceWorkerModule.register('ngsw-worker.js', {
+    enabled: !isDevMode(),
+    // Register the ServiceWorker as soon as the application is stable
+    // or after 30 seconds (whichever comes first).
+    registrationStrategy: 'registerWhenStable:30000'
+  })
 	],
 	providers: [ScreenTrackingService, UserTrackingService, AngularFireAuth, AuthService],
 	bootstrap: [AppComponent]
