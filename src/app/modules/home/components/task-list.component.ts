@@ -18,9 +18,11 @@ import { FirebaseError } from "firebase/app";
 				</p>
 				<div class="w-1/3">
 					<mat-checkbox
+						name="toggleCompletion"
 						[checked]="task.completed"
 						(change)="toggleCompletion(task)"></mat-checkbox
 					><button
+						name="delete"
 						class="align-middle"
 						mat-icon-button
 						color="warn"
