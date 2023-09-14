@@ -1,6 +1,5 @@
 import { Component, OnDestroy } from "@angular/core";
 import { Subject, takeUntil } from "rxjs";
-import { User } from "src/app/models/user.model";
 import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
@@ -17,7 +16,7 @@ import { AuthService } from "src/app/shared/services/auth.service";
 		</button>`
 })
 export class UserPage implements OnDestroy {
-	user: User | null = null;
+	user: any | null = null;
 	destroy$ = new Subject();
 
 	constructor(private authService: AuthService) {

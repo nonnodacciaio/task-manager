@@ -1,22 +1,21 @@
 import { Injectable } from "@angular/core";
+import { GoogleAuthProvider } from "@angular/fire/auth";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { Firestore, doc, getFirestore, setDoc } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
 import { FirebaseError } from "firebase/app";
-import { User } from "src/app/models/user.model";
-import { MessageService } from "./message.service";
-import { Firestore, doc, setDoc } from "@angular/fire/firestore";
 import { BehaviorSubject } from "rxjs";
-import { GoogleAuthProvider } from "@angular/fire/auth";
+import { MessageService } from "./message.service";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-	private userDataSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+	private userDataSubject: BehaviorSubject<any | null> = new BehaviorSubject<any | null>(null);
 	userData$ = this.userDataSubject.asObservable();
 
 	constructor(private afAuth: AngularFireAuth, private messageService: MessageService, private router: Router, private firestore: Firestore) {
 		this.afAuth.authState.subscribe(user => {
 			if (user) {
-				this.userDataSubject.next(user as User);
+				this.userDataSubject.next(user);
 				localStorage.setItem("user", JSON.stringify(user));
 			} else {
 				this.userDataSubject.next(null);
@@ -26,7 +25,7 @@ export class AuthService {
 	}
 
 	get isLoggedIn(): boolean {
-		const user = JSON.parse(localStorage.getItem("user")!) as User;
+		const user = JSON.parse(localStorage.getItem("user")!);
 
 		return user !== null && user.emailVerified !== false ? true : false;
 	}
@@ -46,14 +45,21 @@ export class AuthService {
 			.createUserWithEmailAndPassword(email, password)
 			.then(result => {
 				this.sendVerificationMail();
-				this.setUserData(result.user);
+
+				if (result.user) {
+					this.setUserData(result.user);
+				}
 			})
 			.catch((error: FirebaseError) => this.messageService.error(error.message));
 	}
 
 	private async setUserData(user: any) {
-		const docRef = doc(this.firestore, "users", user.uid);
-		await setDoc(docRef, { email: user.email, uid: user.uid, emailVerified: user.emailVerified, isAnonymous: user.isAnonymous }, { merge: true });
+		try {
+			const docRef = doc(getFirestore(), "users", user.uid);
+			await setDoc(docRef, { uid: user.uid, email: user.email, displayName: user.displayName, phoneNumber: user.phoneNumber }, { merge: true });
+		} catch (error) {
+			this.messageService.error(`Error storing user data`);
+		}
 	}
 
 	async logout(): Promise<void> {
@@ -81,9 +87,12 @@ export class AuthService {
 			.signInWithPopup(new GoogleAuthProvider())
 			.then(result => {
 				this.setUserData(result.user);
+				if (!result.user?.emailVerified) {
+					this.sendVerificationMail();
+				}
 			})
-			.catch(error => {
-				console.error(error);
+			.catch((error: FirebaseError) => {
+				this.messageService.error(`Auth error ${error.message}`);
 			});
 	}
 }
