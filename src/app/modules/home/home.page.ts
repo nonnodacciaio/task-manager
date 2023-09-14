@@ -20,6 +20,13 @@ import { AuthService } from "src/app/shared/services/auth.service";
 				[routerLink]="'/auth/signup'">
 				Signup
 			</button>
+			<button
+				mat-raised-button
+				color="accent"
+				class="m-4"
+				(click)="authService.googleSignIn()">
+				Sign in with Google
+			</button>
 		</div>`
 })
 export class HomePage {

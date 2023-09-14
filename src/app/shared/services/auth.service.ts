@@ -6,6 +6,7 @@ import { User } from "src/app/models/user.model";
 import { MessageService } from "./message.service";
 import { Firestore, doc, setDoc } from "@angular/fire/firestore";
 import { BehaviorSubject } from "rxjs";
+import { GoogleAuthProvider } from "@angular/fire/auth";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
@@ -72,6 +73,17 @@ export class AuthService {
 
 	deleteAccount() {
 		this.afAuth.currentUser.then(user => user?.delete());
-this.router.navigate(["home"]);
+		this.router.navigate(["home"]);
+	}
+
+	googleSignIn() {
+		this.afAuth
+			.signInWithPopup(new GoogleAuthProvider())
+			.then(result => {
+				this.setUserData(result.user);
+			})
+			.catch(error => {
+				console.error(error);
+			});
 	}
 }
