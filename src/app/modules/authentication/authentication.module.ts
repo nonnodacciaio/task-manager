@@ -11,16 +11,26 @@ import { RouterModule, Routes } from "@angular/router";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { environment } from "src/environments/environment";
 import { VerifyComponent } from "./verify.component";
+import { SignupComponent } from "./signup.component";
+import { LoginComponent } from "./login.component";
 
 const routes: Routes = [
 	{
 		path: "verify",
 		component: VerifyComponent
+	},
+	{
+		path: "signup",
+		component: SignupComponent
+	},
+	{
+		path: "login",
+		component: LoginComponent
 	}
 ];
 
 @NgModule({
-	declarations: [VerifyComponent],
+	declarations: [VerifyComponent, SignupComponent, LoginComponent],
 	imports: [CommonModule, RouterModule.forChild(routes), FormsModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, AngularFireModule.initializeApp(environment.firebase)],
 	providers: [AngularFireAuth, AuthService]
 })
