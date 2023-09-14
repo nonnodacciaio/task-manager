@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { GoogleAuthProvider } from "@angular/fire/auth";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { Firestore, doc, getFirestore, setDoc } from "@angular/fire/firestore";
+import { Firestore, collection, deleteDoc, doc, getDocs, getFirestore, query, setDoc, where } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
 import { FirebaseError } from "firebase/app";
 import { BehaviorSubject } from "rxjs";
@@ -77,9 +77,26 @@ export class AuthService {
 			});
 	}
 
-	deleteAccount() {
-		this.afAuth.currentUser.then(user => user?.delete());
-		this.router.navigate(["home"]);
+	async deleteAccount() {
+		const user = await this.afAuth.currentUser;
+
+		if (user) {
+			const firestore = getFirestore();
+			const tasksQuery = query(collection(firestore, "tasks"), where("uid", "==", user.uid));
+			const taskDocs = await getDocs(tasksQuery);
+
+			const deleteTasksPromises = taskDocs.docs.map(async taskDoc => {
+				await deleteDoc(taskDoc.ref);
+			});
+
+			await Promise.all(deleteTasksPromises);
+
+			const userDocRef = doc(firestore, "users", user.uid);
+			await deleteDoc(userDocRef);
+			await user.delete();
+
+			this.router.navigate(["home"]);
+		}
 	}
 
 	googleSignIn() {
