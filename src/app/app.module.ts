@@ -20,7 +20,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { NavigationComponent } from "./components/navigation/navigation.component";
 import { AuthService } from "./shared/services/auth.service";
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServiceWorkerModule } from "@angular/service-worker";
 
 @NgModule({
 	declarations: [AppComponent, NavigationComponent],
@@ -41,12 +41,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 		MatSnackBarModule,
 		ReactiveFormsModule,
 		FormsModule,
-  ServiceWorkerModule.register('ngsw-worker.js', {
-    enabled: !isDevMode(),
-    // Register the ServiceWorker as soon as the application is stable
-    // or after 30 seconds (whichever comes first).
-    registrationStrategy: 'registerWhenStable:30000'
-  })
+		ServiceWorkerModule.register("ngsw-worker.js", {
+			enabled: !isDevMode(),
+			// Register the ServiceWorker as soon as the application is stable
+			// or after 30 seconds (whichever comes first).
+			registrationStrategy: "registerWhenStable:30000"
+		})
 	],
 	providers: [ScreenTrackingService, UserTrackingService, AngularFireAuth, AuthService],
 	bootstrap: [AppComponent]
